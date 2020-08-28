@@ -4,15 +4,29 @@ import 'package:tracko/app/sign_in/social_sign_in_button.dart';
 import 'package:tracko/services/auth.dart';
 
 class SignInPage extends StatelessWidget {
-  SignInPage({@required this.auth, @required this.onSignIn});
+  SignInPage({@required this.auth});
 
-  final Function(AppUser) onSignIn;
   final AuthBase auth;
 
   Future<void> _signInAnonymously() async {
     try {
-      AppUser user = await auth.signInAnonymously();
-      onSignIn(user);
+      await auth.signInAnonymously();
+    } catch (e) {
+      print(e.toString());
+    }
+  }
+
+  Future<void> _signInWithGoogle() async {
+    try {
+      await auth.signInWithGoogle();
+    } catch (e) {
+      print(e.toString());
+    }
+  }
+
+  Future<void> _signInWithFacebook() async {
+    try {
+      await auth.signInWithFacebook();
     } catch (e) {
       print(e.toString());
     }
@@ -51,7 +65,7 @@ class SignInPage extends StatelessWidget {
             text: 'Sign in with Google',
             textColor: Colors.black87,
             color: Colors.white,
-            onPressed: () {},
+            onPressed: _signInWithGoogle,
           ),
           SizedBox(height: 8.0),
           SocialSignInButton(
@@ -59,7 +73,7 @@ class SignInPage extends StatelessWidget {
             text: 'Sign in with Facebook',
             textColor: Colors.white,
             color: Color(0xff334d92),
-            onPressed: () {},
+            onPressed: _signInWithFacebook,
           ),
           SizedBox(height: 8.0),
           SignInButton(
